@@ -3,6 +3,21 @@
 #include <string.h>
 #include <unistd.h>
 
+char	*_strchr(const char *s, int c)
+{
+	size_t i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return ((char*)&s[i]);
+		i++;
+	}
+	if (c == '\0')
+		return ((char*)(&s[i]));
+	return (NULL);
+}
 
 void	*_memalloc(size_t size)
 {
@@ -32,19 +47,30 @@ void	*_memcpy(void *dst, const void *src, size_t n)
 }
 
 
-void create_argvs(char **array, char *line)
+void create_argvs(int argc, char **array, char *line)
 {
-	char *next_argv = strchr(line, ' ');
-	unsigned int i, j = 0;
+	char *next_argv;
+	unsigned int i = 0, i_prev = 0, j = 0;
+	int len = strlen(line);
 
-	for(i = 0; line[i], i++)
+	for(j = 0; j <= argc; j++)
 	{
 		if (line [i] == ' ')
 		{
-			array[j][i] = _memalloc(i);
-			*array[j] = _memcpy(&array[j], line, i - 1);
+			int len_mem = i - i_prev;
+			array[j] = _memalloc(i - i_prev);
+			for (int k = 0; k < (i - i_prev); k++)
+			{
+				array[j][k] = line[i_prev];
+				i_prev++;
+			}
+			array[j][i - i_prev] = '\0';
+			/* array[j] = _memcpy(array[j], line, i - i_prev + 1); */
 			/*falta*/
 		}
+		/* agregar caso termine en espacios */
+		i_prev = i;
+		i++;
 	}
 }
 
@@ -69,7 +95,10 @@ void execute_child(char *line)
 	int _argc = count_spaces(line) + 1;
 	char *_argv[_argc];
 	/* fx que aloca los argv en el array */
-	create_argvs(*_argv, line);
+	create_argvs(_argc, &*_argv, line);
+	execve(_argv[0], _argv, NULL);
+	/* marcador */
+	printf (" argv = %s \n", _argv[0]);
 	printf ("execute function execute_child well \n");
 }
 
