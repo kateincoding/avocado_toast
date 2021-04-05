@@ -51,13 +51,13 @@ void create_argvs(int argc, char **array, char *line)
 {
 	char *next_argv;
 	unsigned int i = 0, i_prev = 0, j = 0;
-	int len = strlen(line);
+	int len_mem = 0, len = strlen(line);
 
 	for(j = 0; j <= argc; j++)
 	{
 		if (line [i] == ' ')
 		{
-			int len_mem = i - i_prev;
+			len_mem = i - i_prev;
 			array[j] = _memalloc(i - i_prev);
 			for (int k = 0; k < (i - i_prev); k++)
 			{
@@ -95,7 +95,7 @@ void execute_child(char *line)
 	int _argc = count_spaces(line) + 1;
 	char *_argv[_argc];
 	/* fx que aloca los argv en el array */
-	create_argvs(_argc, &*_argv, line);
+	create_argvs(_argc, _argv, line);
 	execve(_argv[0], _argv, NULL);
 	/* marcador */
 	printf (" argv = %s \n", _argv[0]);
