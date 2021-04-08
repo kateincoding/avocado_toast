@@ -80,9 +80,13 @@ void execute_commands(char *buff, int read, char *first_av)
 	/* Fork parent process to execute the command */
 	child_pid = fork();
 	if (child_pid == -1)
+<<<<<<< HEAD:simple_shell_prueba_v1.c
 	{
 		dispatch_error(first_av, 1);
 	}
+=======
+		dispatch_error(commands[0], 1);
+>>>>>>> 6c2eba0babe99b7802550927eb417341c7126ce4:simple_shell_prueba.c
 	else if (child_pid == 0)
 	{
 		/* Search command using the PATH env variable */
@@ -90,8 +94,18 @@ void execute_commands(char *buff, int read, char *first_av)
 		/* execute command */
 		execve(commands[0], commands, NULL);
 		/* free memory */
+<<<<<<< HEAD:simple_shell_prueba_v1.c
 
 		free(buff);
+=======
+			free(buff);
+			free_dbl_ptr(commands);
+			/* handle errors */
+			dispatch_error(commands[0], 1);
+		}
+		else
+			wait(NULL);
+>>>>>>> 6c2eba0babe99b7802550927eb417341c7126ce4:simple_shell_prueba.c
 
 		free_dbl_ptr(commands);
 		/* handle errors */
