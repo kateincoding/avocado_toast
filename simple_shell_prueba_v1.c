@@ -1,6 +1,7 @@
 #include "shell.h"
 
-void execute_commands(char *buff);
+void execute_commands(char *buff, int read, char *first_av);
+void execute_handling_semicolon(char *buff, int read, char *first_av);
 
 /**
  * main - Entry point
@@ -25,14 +26,36 @@ int main(int __attribute__((unused))ac, char **av)
 		/* Remove comments & '\n' char from buffer */
 		buff = handle_comment(buff);
 		_strtok(buff, "\n");
+		printf("buff before handling semicolon = '%s'\n", buff);
+		execute_handling_semicolon(buff, read, av[0]);
 	}
-	execute_commands(buff);
 	/* Free buffer memory */
 	free(buff);
 	return (0);
 }
 
-void execute_commands(char *buff)
+void execute_handling_semicolon(char *buff, int read, char *first_av)
+{
+	char *block = _strtok(buff, ";");
+
+	if (block[0] == '\n')
+	{
+		puts(" retorna salto de linea");
+		return;
+	}
+	while (block != NULL)
+	{
+		char *tmp = strdup(block);
+
+		execute_commands(tmp, read, first_av);
+		printf("block = '%s'\n", block);
+		block = _strtok(NULL, ";");
+		printf("block after strtok = '%s'\n", block);
+		/* free (tmp); */
+	}
+}
+
+void execute_commands(char *buff, int read, char *first_av)
 {
 	int child_pid;
 	char **commands;
@@ -52,13 +75,14 @@ void execute_commands(char *buff)
 	handle_builtins(commands) == 1)
 	{
 		free_dbl_ptr(commands);
-		continue;
 	}
 
 	/* Fork parent process to execute the command */
 	child_pid = fork();
 	if (child_pid == -1)
-		dispatch_error(av[0], 1);
+	{
+		dispatch_error(first_av, 1);
+	}
 	else if (child_pid == 0)
 	{
 		/* Search command using the PATH env variable */
@@ -66,13 +90,15 @@ void execute_commands(char *buff)
 		/* execute command */
 		execve(commands[0], commands, NULL);
 		/* free memory */
-			free(buff);
-			free_dbl_ptr(commands);
-			/* handle errors */
-			dispatch_error(av[0], 1);
-		}
-		else
-			wait(NULL);
+
+		free(buff);
 
 		free_dbl_ptr(commands);
+		/* handle errors */
+		dispatch_error(first_av, 1);
+	}
+	else
+		wait(NULL);
+	free_dbl_ptr(commands);
 }
+
