@@ -1,6 +1,8 @@
 #include "shell.h"
+#include <stdio.h>
 
-#define BUFF_SIZE 4
+/* I selected start with 4 because is the smallest command: ls/n/0 */
+#define BUFF_SIZE 256
 
 char *_memset(char *str, char a, unsigned int n)
 {
@@ -11,13 +13,14 @@ char *_memset(char *str, char a, unsigned int n)
 	return (str);
 }
 
-int _getline(char **buffer, size_t *buf_size, int fd)
+int _getline(char **buffer, size_t *buf_size, FILE *restrict stream)
 {
 	char *buf_tmp;
-	size_t size, size_old;
+	size_t size;
 	unsigned int i = 0, len = 0;
-	int read;
+	int r, fd;
 
+	stream = stdin;
 	/* case: we don't have nothing to read */
 	if(buffer == NULL || buf_size == NULL)
 	{
@@ -25,7 +28,7 @@ int _getline(char **buffer, size_t *buf_size, int fd)
 		exit(100);
 	}
 	/* initialize with a constant var BUFF_SIZE */
-	if (*bufsize == 0)
+	if (*buf_size == 0)
 		size = BUFF_SIZE;
 	/* caso inicial buffer = 0 */
 	if (*buffer == 0)
@@ -41,20 +44,20 @@ int _getline(char **buffer, size_t *buf_size, int fd)
 
 	while (1)
 	{
+		if (stream == stdin)
+			fd = 0;
 		/* read(int fd, void *buf, size_t count) each BUFF_SIZE */
-		read = read(fd, buf_tmp + len, BUFF_SIZE);
+		r = read(fd, buf_tmp + len, BUFF_SIZE);
 		
 		/* next: we read read + len */
-		if (read >= 0)
-			i = len, len += read;
+		if (r >= 0)
+			i = len, len += r;
 		/* case of error */
-		else if ( read == -1 || read == 0)
+		else if ( r == -1 || r == 0)
 			return (-1);
 		/* case len > size when len != 0*/
 		if (len >= size)
 		{
-			/* we create size_old for then reallocate, maybe strcat in future */
-			/* size_old = size; */
 			/* we will read BUFF_SIZE ++ */
 			size += BUFF_SIZE;
 			/*  realloc() function changes the size of the memory block pointed to by ptr to size bytes.*/
@@ -67,10 +70,13 @@ int _getline(char **buffer, size_t *buf_size, int fd)
 		{
 			if (buf_tmp[i] == '\n')
 			{
-				/* we found the complete buffer */
+				/* we found the complete buffer, so we realloc to the new size*/
+				*buf_size = i + 1;
+				buf_tmp = realloc(buf_tmp, *buf_size);
+				if (!buf_tmp)
+					return (write(1, "error of memory allocation", 100));
 				*buffer = buf_tmp;
-				*buf_size = size;
-				/* check, maybe realloc to i */
+				/*printf("i = %d || buffer = '%s' || buf_size = %zu\n", i, *buffer, *buf_size);*/
 				return (len);
 			}
 			i++;
