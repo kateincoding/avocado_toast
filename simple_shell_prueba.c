@@ -52,13 +52,12 @@ void execute_commands(char *buff)
 	handle_builtins(commands) == 1)
 	{
 		free_dbl_ptr(commands);
-		continue;
 	}
 
 	/* Fork parent process to execute the command */
 	child_pid = fork();
 	if (child_pid == -1)
-		dispatch_error(av[0], 1);
+		dispatch_error(commands[0], 1);
 	else if (child_pid == 0)
 	{
 		/* Search command using the PATH env variable */
@@ -69,7 +68,7 @@ void execute_commands(char *buff)
 			free(buff);
 			free_dbl_ptr(commands);
 			/* handle errors */
-			dispatch_error(av[0], 1);
+			dispatch_error(commands[0], 1);
 		}
 		else
 			wait(NULL);
