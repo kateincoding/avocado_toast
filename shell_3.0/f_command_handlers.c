@@ -82,7 +82,7 @@ int handle_PATH(char **commands)
 		commands == NULL || commands[0] == NULL ||
 		commands[0][0] == '\0' || commands[0][0] == '/'
 	)
-		return;
+		return(-1);
 
 	path_dirs = getenv("PATH");
 	if (path_dirs == NULL)

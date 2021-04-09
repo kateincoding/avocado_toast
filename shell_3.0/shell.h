@@ -57,7 +57,7 @@ char *_strtok(char *str, char *delimiter);
 int _getline(char **buffer, size_t *buf_size, FILE *stream);
 
 /* Command handlers */
-void handle_PATH(char **commands);
+int handle_PATH(char **commands);
 char *getpath(char *dir, char *filename);
 char **parse_user_input(char *str_input, char *delimiter);
 int count_args(char *str_input, char *delimiter);
