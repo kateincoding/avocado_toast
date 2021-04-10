@@ -35,3 +35,22 @@ char *_strdup(const char *s1)
 	s2[i] = '\0';
 	return (s2);
 }
+
+/* compare strings */
+int	_strcmp(const char *s1, const char *s2)
+{
+	return (_strncmp(s1, s2, (size_t)-1));
+}
+
+int	_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t i;
+
+	i = 0;
+	while (i < n && s1 && s2 && s1[i] && s2[i] &&
+			(unsigned char)s1[i] == (unsigned char)s2[i])
+		i++;
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
