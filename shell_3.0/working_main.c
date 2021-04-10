@@ -99,7 +99,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	int read, char *first_av)
 {
 	int child_pid; 
-	int const flag;
+	int flag;
 	char **commands;
 
 	/* Generate array of commands */
