@@ -5,7 +5,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 											int read, char *first_av);
 void execute_handling_semicolon(char *buff, int read, char *first_av);
 void handling_or(char *buff_semicolon, int read, char *first_av);
-void handling_and(char *buff_semicolon, int read, char *first_av);
+int handling_and(char *buff_semicolon, int read, char *first_av, int prev_flag);
 
 /**
  * main - Entry point
@@ -38,7 +38,7 @@ int main(int __attribute__((unused))ac, char **av)
 	return (0);
 }
 
-void handling_and(char *buff_or, int read, char *first_av)
+int handling_and(char *buff_or, int read, char *first_av, int pre_flag)
 {
 	int j, result, flag = 1;
 	char **cmds_list_3 = parse_user_input(buff_or, "&&");
@@ -49,18 +49,19 @@ void handling_and(char *buff_or, int read, char *first_av)
 		printf("flag in handling && is %i\n", flag);
 	}
 		/* record de last result , estudiar el caso 0 */
-	result = 1;
 	free_dbl_ptr(cmds_list_3);
+	return (flag);
 }
 
 void handling_or(char *buff_semicolon, int read, char *first_av)
 {
-	int i, result = 0;
+	int i, result = 0, flag = -1;
 	char **cmds_list_2 = parse_user_input(buff_semicolon, "||");
 
 	for (i = 0; cmds_list_2[i] != NULL; i++)
 	{
-		handling_and(cmds_list_2[i], read, first_av);
+		flag = handling_and(cmds_list_2[i], read, first_av, flag);
+		printf("flag in handling || is %i\n", flag);
 		/* record de last result , estudiar el caso 0 */
 	}
 	free_dbl_ptr(cmds_list_2);
@@ -122,7 +123,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 			flag = -1;
 	else 
 	{
-			flag = 1;
+			flag = 0;
 
 	/* Fork parent process to execute the command */
 	child_pid = fork();
@@ -137,7 +138,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 			flag = -1;
 		else 
 			flag = 1; */
-		printf("flag in executive function = %i\n", flag);
+		/* printf("flag in executive function = %i\n", flag); */
 		/* execute command */
 		execve(commands[0], commands, NULL);
 		/* free memory */
@@ -148,9 +149,9 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 
 
 	}
-	
+
 	wait(NULL);
 	free_dbl_ptr(commands);
-	printf("flag in executive after free = %i\n", flag);
+	/* printf("flag in executive after free = %i\n", flag); */
 	return (flag);
 }
