@@ -114,7 +114,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 			handle_builtins(commands) == 1)
 	{
 		free_dbl_ptr(commands);
-		return;
+		return(-1);
 	}
 	/* Fork parent process to execute the command */
 	child_pid = fork();
