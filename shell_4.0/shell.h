@@ -11,6 +11,11 @@
 
 #include <stddef.h>
 
+/* FLAGS */
+#define F_BUFF 1
+#define F_CMD_L 2
+#define F_CMDS 4
+
 /**
  * struct list_s - singly linked list
  * @str: string - (malloc'ed string)
@@ -27,6 +32,19 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+/*linked lists*/
+size_t print_list(const list_t *h);
+list_t *add_node_end(list_t **head, const char *str);
+void free_list(list_t *head);
+
+/*function with all the logical part that will work with the main */
+int execute_commands(char *buff, char **cmds_list, char *cmd,
+											int read, char *first_av);
+void handling_semicolon_and_operators(char *buff, int read, char *first_av);
+void handling_or(char *buff_semicolon, int read, char *first_av);
+int handling_and(char *buff_semicolon, int read,
+											char *first_av, int prev_flag);
+
 /* Special functions */
 void __attribute__((constructor)) build_dynamic_environ(void);
 void __attribute__((destructor)) free_dynamic_environ(void);
@@ -35,6 +53,7 @@ void __attribute__((destructor)) free_dynamic_environ(void);
 void env(void);
 int _setenv(char *name, char *value);
 int _unsetenv(char *name);
+int _cd(char *path);
 
 /* builtins utils */
 int validate_env_name(char *name);
@@ -46,15 +65,16 @@ char *_strtok(char *str, char *delimiter);
 int _getline(char **buffer, size_t *buf_size, FILE *stream);
 
 /* Command handlers */
-void handle_PATH(char **commands);
+int handle_PATH(char **commands);
 char *getpath(char *dir, char *filename);
-char **parse_user_input(char *str_input);
+char **parse_user_input(char *str_input, char *delimiter);
 int count_args(char *str_input, char *delimiter);
 
 /* Memory management */
 void *allocate_memory(unsigned int bytes);
 char *duplicate_string(char *str);
 void free_dbl_ptr(char **dbl_ptr);
+void free_allocs(char *buff, char **cmds_list, char **commands, int flags);
 
 /* handle_builtins */
 int handle_builtins(char **commands);
@@ -71,5 +91,11 @@ void print_Illegal_exit_status(char *status_str);
 
 /* Error handlers */
 void dispatch_error(char *msg, int status);
+
+/* strings functions */
+int _strlen(const char *s);
+char *_strdup(const char *s1);
+int	_strcmp(const char *s1, const char *s2);
+int	_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif /* __SHELL_H */
