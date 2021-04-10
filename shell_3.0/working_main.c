@@ -143,6 +143,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	else if (child_pid == 0)
 	{
 		/* Search command using the PATH env variable */
+		handle_PATH(commands);
 		/* if (handle_PATH(commands) == -1)
 			flag = -1;
 		else 
