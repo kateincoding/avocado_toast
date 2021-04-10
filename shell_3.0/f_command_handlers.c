@@ -106,12 +106,12 @@ int handle_PATH(char **commands)
 			free(commands[0]);
 			commands[0] = path;
 			printf ("hola\n");
-			flag = 2;
+			flag = 1;
 			break;
 		}
 		free(path);
 	}
-	printf("flag = %i/n", flag);
+	printf("flag = %i\n", flag);
 	free(str_copy);
 	return (flag);
 }

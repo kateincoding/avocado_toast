@@ -46,7 +46,7 @@ void handling_and(char *buff_or, int read, char *first_av)
 	for (j = 0; cmds_list_3[j] != NULL; j++)
 	{
 		flag = execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
-		printf("flag is %i\n", flag);
+		printf("flag in handling && is %i\n", flag);
 	}
 		/* record de last result , estudiar el caso 0 */
 	result = 1;
@@ -126,6 +126,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	{
 		/* Search command using the PATH env variable */
 		flag = handle_PATH(commands);
+		printf("flag in executive function = %i\n", flag);
 		/* execute command */
 		execve(commands[0], commands, NULL);
 		/* free memory */
