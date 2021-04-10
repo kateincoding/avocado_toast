@@ -50,7 +50,10 @@ int handling_and(char *buff_or, int read, char *first_av, int prev_flag)
 		{
 			j++;
 			if (!cmds_list_3[j])
+			{
 				flag == prev_flag;
+				return (-1);
+			}
 		}
 		flag = execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
 		/* printf("flag in handling && is %i\n", flag); */
@@ -129,10 +132,10 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	}
 
 	if (handle_PATH(commands) == -1)
-			flag = -1;
+		flag = -1;
 	else 
 	{
-			flag = 0;
+		flag = 0;
 
 	/* Fork parent process to execute the command */
 	child_pid = fork();
