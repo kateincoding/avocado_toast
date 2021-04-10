@@ -111,6 +111,7 @@ int handle_PATH(char **commands)
 		}
 		free(path);
 	}
+	printf("flag = %i/n", flag);
 	free(str_copy);
 	return (flag);
 }
