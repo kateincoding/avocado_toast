@@ -113,7 +113,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	int read, char *first_av)
 {
 	int child_pid; 
-	int flag;
+	int flag = 0;
 	char **commands;
 
 	/* Generate array of commands */
@@ -135,13 +135,12 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	if (handle_PATH(commands) == -1)
 	{
 		flag = -1;
-		free_allocs(buff, cmds_list, commands, F_BUFF | F_CMD_L | F_CMDS);
-		dispatch_error(first_av, 1);
 	}
+	/*
 	else 
 	{
 		flag = 0;
-
+	*/
 	/* Fork parent process to execute the command */
 	child_pid = fork();
 	if (child_pid == -1)
@@ -165,7 +164,6 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		dispatch_error(first_av, 1);
 	}
 
-	}
 
 	wait(NULL);
 	free_dbl_ptr(commands);
