@@ -117,6 +117,12 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		free_dbl_ptr(commands);
 		return(-1);
 	}
+
+	if (handle_PATH(commands) == -1)
+			flag = -1;
+	else 
+			flag = 1;
+
 	/* Fork parent process to execute the command */
 	child_pid = fork();
 	if (child_pid == -1)
@@ -126,10 +132,10 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	else if (child_pid == 0)
 	{
 		/* Search command using the PATH env variable */
-		if (handle_PATH(commands) == -1)
+		/* if (handle_PATH(commands) == -1)
 			flag = -1;
 		else 
-			flag = 1;
+			flag = 1; */
 		printf("flag in executive function = %i\n", flag);
 		/* execute command */
 		execve(commands[0], commands, NULL);
