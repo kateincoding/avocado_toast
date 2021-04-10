@@ -38,15 +38,23 @@ int main(int __attribute__((unused))ac, char **av)
 	return (0);
 }
 
-int handling_and(char *buff_or, int read, char *first_av, int pre_flag)
+int handling_and(char *buff_or, int read, char *first_av, int prev_flag)
 {
 	int j, result, flag = 1;
 	char **cmds_list_3 = parse_user_input(buff_or, "&&");
 
 	for (j = 0; cmds_list_3[j] != NULL; j++)
 	{
+		printf("PREVflag in handling && is %i\n", prev_flag);
+		if (prev_flag == 0)
+		{
+			j++;
+			if (!cmds_list_3[j])
+				flag == prev_flag;
+		}
 		flag = execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
 		printf("flag in handling && is %i\n", flag);
+		prev_flag = flag;
 	}
 		/* record de last result , estudiar el caso 0 */
 	free_dbl_ptr(cmds_list_3);
