@@ -121,6 +121,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	if (handle_PATH(commands) == -1)
 			flag = -1;
 	else 
+	{
 			flag = 1;
 
 	/* Fork parent process to execute the command */
@@ -145,6 +146,9 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		dispatch_error(first_av, 1);
 	}
 
+
+	}
+	
 	wait(NULL);
 	free_dbl_ptr(commands);
 	printf("flag in executive after free = %i\n", flag);
