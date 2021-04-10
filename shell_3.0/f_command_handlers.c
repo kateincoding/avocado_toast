@@ -86,7 +86,10 @@ int handle_PATH(char **commands)
 
 	path_dirs = getenv("PATH");
 	if (path_dirs == NULL)
+	{
 		dispatch_error("Error", 100);
+		return (-1);
+	}
 
 	str_copy = duplicate_string(path_dirs);
 	tkn_ptr = str_copy;
