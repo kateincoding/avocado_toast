@@ -66,7 +66,7 @@ int handling_and(char *buff_or, int read, char *first_av, int prev_flag)
 	for (; cmds_list_3[j] != NULL; j++)
 	{
 		flag = execute_commands(buff_or, cmds_list_3,
-									cmds_list_3[j], read, first_av);
+									cmds_list_3[j], read, cmds_list_3[j]);
 		prev_flag = flag;
 	}
 		/* record de last result , estudiar el caso 0 */
@@ -121,7 +121,7 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		/* free memory */
 		free_allocs(buff, cmds_list, commands, F_BUFF | F_CMD_L | F_CMDS);
 		/* handle errors */
-		dispatch_error(first_av, 1);
+		dispatch_error(commands[0], 1);
 	}
 	wait(NULL);
 	free_dbl_ptr(commands);
