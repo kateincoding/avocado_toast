@@ -98,11 +98,10 @@ int handle_PATH(char **commands)
 		tkn_ptr = NULL;
 
 		path = getpath(tkn, commands[0]);
-		if (access(path, F_OK) != -1)
+		if (flag = access(path, F_OK) != -1)
 		{
 			free(commands[0]);
 			commands[0] = path;
-			flag = 0;
 			break;
 		}
 		free(path);
