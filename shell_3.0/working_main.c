@@ -4,7 +4,8 @@
 void execute_commands(char *buff, char **cmds_list, char *cmd,
 											int read, char *first_av);
 void execute_handling_semicolon(char *buff, int read, char *first_av);
-void handling_and_or(char *buff_semicolon, int read, char *first_av);
+void handling_or(char *buff_semicolon, int read, char *first_av);
+void handling_and(char *buff_semicolon, int read, char *first_av);
 
 /**
  * main - Entry point
@@ -37,21 +38,30 @@ int main(int __attribute__((unused))ac, char **av)
 	return (0);
 }
 
-void handling_and_or(char *buff_semicolon, int read, char *first_av)
+int handling_and(char *buff_or, int read, char *first_av)
 {
-	int i, j, result;
+	int j, result;
+	char **cmds_list_3 = parse_user_input(buff_or, "&&");
+
+	for (j = 0; cmds_list_3[j] != NULL; j++)
+	{
+		execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
+	}
+		/* record de last result , estudiar el caso 0 */
+	result = 1;
+	free_dbl_ptr(cmds_list_3);
+	return (result);
+}
+
+void handling_or(char *buff_semicolon, int read, char *first_av)
+{
+	int i, result = 0;
 	char **cmds_list_2 = parse_user_input(buff_semicolon, "||");
-	char **cmds_list_3;
 
 	for (i = 0; cmds_list_2[i] != NULL; i++)
 	{
-		cmds_list_3 = parse_user_input(buff_semicolon, "&&");
-		for (j = 0; cmds_list_3[j] != NULL; j++)
-		{
-			execute_commands(buff_semicolon, cmds_list_3, cmds_list_3[i], read, first_av);
-		}
+		result = handling_and(cmds_list_2[i], read, *first_av);
 		/* record de last result , estudiar el caso 0 */
-		result = 1;
 	}
 	free_dbl_ptr(cmds_list_2);
 }
