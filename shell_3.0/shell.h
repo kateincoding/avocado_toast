@@ -37,6 +37,14 @@ size_t print_list(const list_t *h);
 list_t *add_node_end(list_t **head, const char *str);
 void free_list(list_t *head);
 
+/*function with all the logical part that will work with the main */
+int execute_commands(char *buff, char **cmds_list, char *cmd,
+											int read, char *first_av);
+void handling_semicolon_and_operators(char *buff, int read, char *first_av);
+void handling_or(char *buff_semicolon, int read, char *first_av);
+int handling_and(char *buff_semicolon, int read,
+											char *first_av, int prev_flag);
+
 /* Special functions */
 void __attribute__((constructor)) build_dynamic_environ(void);
 void __attribute__((destructor)) free_dynamic_environ(void);
