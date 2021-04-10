@@ -101,7 +101,7 @@ int handle_PATH(char **commands)
 		tkn_ptr = NULL;
 
 		path = getpath(tkn, commands[0]);
-		if (_strcmp(path, "help") == 0)
+		if (_strcmp(commands[0], "help") == 0)
 		{
 			free(commands[0]);
 			commands[0] = path;
