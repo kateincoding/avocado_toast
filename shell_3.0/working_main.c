@@ -39,12 +39,17 @@ int main(int __attribute__((unused))ac, char **av)
 
 void handling_and_or(char *buff_semicolon, int read, char *first_av)
 {
-	int i;
+	int i, result;
 	char **cmds_list_2 = parse_user_input(buff_semicolon, "||");
+	char **cmds_list_3;
 
 	for (i = 0; cmds_list_2[i] != NULL; i++)
 	{
-		execute_commands(buff_semicolon, cmds_list_2, cmds_list_2[i], read, first_av);
+		cmds_list_3 = parse_user_input(buff_semicolon, "&&");
+		execute_commands(buff_semicolon, cmds_list_3, cmds_list_3[i], read, first_av);
+		free_dbl_ptr(cmds_list_2);
+		/* record de last result , estudiar el caso 0 */
+		result = 1;
 	}
 	free_dbl_ptr(cmds_list_2);
 }
