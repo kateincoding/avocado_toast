@@ -77,9 +77,9 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
 			while (cmds_list[i] != '||' || cmds_list[i] != '&&' || cmds_list[i] != '\0')
 				i++;
 
-			char *buff_input[i - iprev + 1];
+			char *buff_input[i - i_prev + 1];
 
-			buff_input[iprev - i + 1] == '\0';
+			buff_input[i_prev - i + 1] == '\0';
 			/*excute and check if it is success */
                 	success = execute_commands(buff_input, cmds_list, cmds_list[i], read, first_av);
 			if (success == 0)
@@ -97,9 +97,9 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
 						/* escribirlo en una fx, se repite y que i e i ++ sea |*/
 						while(cmds_list[i] != '||' || cmds_list[i] != '&&' || cmds_list[i] != '\0')
 							i++;
-						char *buff_input2[i - iprev + 1];
+						char *buff_input2[i - i_prev + 1];
 
-                        			buff_input2[iprev - i + 1] == '\0';
+                        			buff_input2[i_prev - i + 1] == '\0';
 						execute_commands(buff_input2, cmds_list, cmds_list[i], read, first_av);
 					}	
 					i++;
@@ -107,7 +107,7 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
 				}
 			}
 			/*else , repeat the loop because we need to run the first block */
-			free(buff_input); cmds_list[i] != '||' || cmds_list[i] != '&&' || cmds_list[i] != '\0'; j++)
+			free(buff_input); cmds_list[i] != '||' || cmds_list[i] != '&&' || cmds_list[i] != '\0'; j++);
 		}
 		i_prev = i;
 		i++;
