@@ -44,7 +44,6 @@ void handling_and_or(char *buff_semicolon, int read, char *first_av)
 
 	for (i = 0; cmds_list_2[i] != NULL; i++)
 	{
-		handling_and_or(cmds_list_2[i], read, *first_av);
 		execute_commands(buff_semicolon, cmds_list_2, cmds_list_2[i], read, first_av);
 	}
 	free_dbl_ptr(cmds_list_2);
@@ -64,7 +63,7 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
 
 	for (i = 0; cmds_list[i] != NULL; i++)
 	{
-		handling_and_or(cmds_list[i], read, *first_av);
+		handling_and_or(cmds_list[i], read, first_av);
 		/* execute_commands(buff, cmds_list, cmds_list[i], read, first_av); */
 	}
 	free_dbl_ptr(cmds_list);
