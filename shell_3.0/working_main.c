@@ -98,7 +98,8 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
 int execute_commands(char *buff, char **cmds_list, char *cmd,
 	int read, char *first_av)
 {
-	int child_pid, flag = 42;
+	int child_pid; 
+	int const flag;
 	char **commands;
 
 	/* Generate array of commands */
@@ -127,6 +128,8 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		/* Search command using the PATH env variable */
 		if (handle_PATH(commands) == -1)
 			flag = -1;
+		else 
+			flag = 1;
 		printf("flag in executive function = %i\n", flag);
 		/* execute command */
 		execve(commands[0], commands, NULL);
