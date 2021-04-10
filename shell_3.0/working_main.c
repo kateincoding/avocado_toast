@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /*function with all the logical part that will work with the main */
-void execute_commands(char *buff, char **cmds_list, char *cmd,
-											int read, char *first_av, int flag);
+int execute_commands(char *buff, char **cmds_list, char *cmd,
+											int read, char *first_av);
 void execute_handling_semicolon(char *buff, int read, char *first_av);
 void handling_or(char *buff_semicolon, int read, char *first_av);
 void handling_and(char *buff_semicolon, int read, char *first_av);
@@ -45,7 +45,7 @@ void handling_and(char *buff_or, int read, char *first_av)
 
 	for (j = 0; cmds_list_3[j] != NULL; j++)
 	{
-		execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av, flag);
+		flag = execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
 		printf("flag is %i\n", flag);
 	}
 		/* record de last result , estudiar el caso 0 */
@@ -96,9 +96,9 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
  * Return: 0 on success
 */
 void execute_commands(char *buff, char **cmds_list, char *cmd,
-	int read, char *first_av, int flag)
+	int read, char *first_av)
 {
-	int child_pid;
+	int child_pid, flag = 0;
 	char **commands;
 
 	/* Generate array of commands */
@@ -136,4 +136,5 @@ void execute_commands(char *buff, char **cmds_list, char *cmd,
 
 	wait(NULL);
 	free_dbl_ptr(commands);
+	return (flag);
 }
