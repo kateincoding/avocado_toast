@@ -45,7 +45,7 @@ int handling_and(char *buff_or, int read, char *first_av, int prev_flag)
 
 	for (j = 0; cmds_list_3[j] != NULL; j++)
 	{
-		printf("PREVflag in handling && is %i\n", prev_flag);
+		/* printf("PREVflag in handling && is %i\n", prev_flag); */
 		if (prev_flag == 0)
 		{
 			j++;
