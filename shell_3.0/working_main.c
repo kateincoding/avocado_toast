@@ -40,7 +40,7 @@ int main(int __attribute__((unused))ac, char **av)
 
 void handling_and(char *buff_or, int read, char *first_av)
 {
-	int j, result, flag = 0;
+	int j, result, flag = 1;
 	char **cmds_list_3 = parse_user_input(buff_or, "&&");
 
 	for (j = 0; cmds_list_3[j] != NULL; j++)
