@@ -73,7 +73,7 @@ void handling_or(char *buff_semicolon, int read, char *first_av)
  * @first_av: av[0]
  * Return: 0 on success
 */
-void execute_handling_semicolon(char *buff, int read, char *first_av)
+int execute_handling_semicolon(char *buff, int read, char *first_av)
 {
 	int i;
 	char **cmds_list = parse_user_input(buff, ";");
