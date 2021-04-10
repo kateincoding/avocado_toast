@@ -133,7 +133,11 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 	}
 
 	if (handle_PATH(commands) == -1)
+	{
 		flag = -1;
+		free_allocs(buff, cmds_list, commands, F_BUFF | F_CMD_L | F_CMDS);
+		dispatch_error(first_av, 1);
+	}
 	else 
 	{
 		flag = 0;
@@ -160,7 +164,6 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		/* handle errors */
 		dispatch_error(first_av, 1);
 	}
-
 
 	}
 
