@@ -101,11 +101,12 @@ int handle_PATH(char **commands)
 		tkn_ptr = NULL;
 
 		path = getpath(tkn, commands[0]);
-		if (flag = access(path, F_OK) != -1)
+		if (access(path, F_OK) != -1)
 		{
 			free(commands[0]);
 			commands[0] = path;
 			printf ("hola\n");
+			flag = 2;
 			break;
 		}
 		free(path);
