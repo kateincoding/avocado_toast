@@ -59,7 +59,7 @@ void handling_or(char *buff_semicolon, int read, char *first_av)
 
 	for (i = 0; cmds_list_2[i] != NULL; i++)
 	{
-		handling_and(cmds_list_2[i], read, *first_av);
+		handling_and(cmds_list_2[i], read, first_av);
 		/* record de last result , estudiar el caso 0 */
 	}
 	free_dbl_ptr(cmds_list_2);
