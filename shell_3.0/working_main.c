@@ -2,7 +2,7 @@
 
 /*function with all the logical part that will work with the main */
 void execute_commands(char *buff, char **cmds_list, char *cmd,
-											int read, char *first_av);
+											int read, char *first_av, int flag);
 void execute_handling_semicolon(char *buff, int read, char *first_av);
 void handling_or(char *buff_semicolon, int read, char *first_av);
 void handling_and(char *buff_semicolon, int read, char *first_av);
@@ -40,12 +40,13 @@ int main(int __attribute__((unused))ac, char **av)
 
 void handling_and(char *buff_or, int read, char *first_av)
 {
-	int j, result;
+	int j, result, flag = 0;
 	char **cmds_list_3 = parse_user_input(buff_or, "&&");
 
 	for (j = 0; cmds_list_3[j] != NULL; j++)
 	{
-		execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av);
+		execute_commands(buff_or, cmds_list_3, cmds_list_3[j], read, first_av, flag);
+		printf("flag is %i\n", flag);
 	}
 		/* record de last result , estudiar el caso 0 */
 	result = 1;
@@ -95,7 +96,7 @@ void execute_handling_semicolon(char *buff, int read, char *first_av)
  * Return: 0 on success
 */
 void execute_commands(char *buff, char **cmds_list, char *cmd,
-	int read, char *first_av)
+	int read, char *first_av, int flag)
 {
 	int child_pid;
 	char **commands;
@@ -126,7 +127,7 @@ void execute_commands(char *buff, char **cmds_list, char *cmd,
 		/* Search command using the PATH env variable */
 		handle_PATH(commands);
 		/* execute command */
-		execve(commands[0], commands, NULL);
+		flag = execve(commands[0], commands, NULL);
 		/* free memory */
 		free_allocs(buff, cmds_list, commands, F_BUFF | F_CMD_L | F_CMDS);
 		/* handle errors */
