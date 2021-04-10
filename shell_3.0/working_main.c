@@ -47,7 +47,7 @@ void handling_and_or(char *buff_semicolon, int read, char *first_av)
 	{
 		cmds_list_3 = parse_user_input(buff_semicolon, "&&");
 		execute_commands(buff_semicolon, cmds_list_3, cmds_list_3[i], read, first_av);
-		free_dbl_ptr(cmds_list_2);
+		free_dbl_ptr(cmds_list_3);
 		/* record de last result , estudiar el caso 0 */
 		result = 1;
 	}
