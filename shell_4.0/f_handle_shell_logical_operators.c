@@ -118,7 +118,12 @@ int execute_commands(char *buff, char **cmds_list, char *cmd,
 		/* Search command using the PATH env variable */
 		handle_PATH(commands);
 		/* execute command */
-		execve(commands[0], commands, NULL);
+		if (_strcmp(commands[0], "help") == 0)
+		{
+			printf("I am here HELPP with a flag = %d\n", flag);
+		}
+		else
+			execve(commands[0], commands, NULL);
 		/* free memory */
 		free_allocs(buff, cmds_list, commands, F_BUFF | F_CMD_L | F_CMDS);
 		/* handle errors */

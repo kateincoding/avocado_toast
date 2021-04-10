@@ -103,13 +103,12 @@ int handle_PATH(char **commands)
 		path = getpath(tkn, commands[0]);
 		if (_strcmp(commands[0], "help") == 0)
 		{
-			free(commands[0]);
-			commands[0] = path;
+			/* free(commands[0]); */
+			/* commands[0] = path; */
 			flag = 1;
-			puts("I am here HELPPPPP\n");
 			break;
 		}
-		if (access(path, F_OK) != -1)
+		else if (access(path, F_OK) != -1)
 		{
 			free(commands[0]);
 			commands[0] = path;
