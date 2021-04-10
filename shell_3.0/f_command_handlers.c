@@ -105,6 +105,7 @@ int handle_PATH(char **commands)
 		{
 			free(commands[0]);
 			commands[0] = path;
+			printf ("hola\n");
 			break;
 		}
 		free(path);
